@@ -19,9 +19,9 @@ jobs:
         sudo mv /tmp/eksctl /usr/local/bin
         sleep 10
         eksctl version
-        eksctl create cluster --name=test --region=${{ secrets.AWS_DEFAULT_REGION }}
+        eksctl create cluster --name=test
         kubectl get nodes -owide
-        eksctl delete cluster --name=test --region=${{ secrets.AWS_DEFAULT_REGION }}
+        eksctl delete cluster --name=test 
         
 
         
