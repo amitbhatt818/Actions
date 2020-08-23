@@ -5,7 +5,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - run: |
+    - name: test
+      run: |
         curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x ./kubectl
         sudo mv ./kubectl /usr/local/bin/kubectl
@@ -19,6 +20,15 @@ jobs:
         sudo mv /tmp/eksctl /usr/local/bin
         sleep 10
         eksctl version
+    - name: Configure AWS credentials from Production account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+        
+    - name: Copy files to the production website with the AWS CLI
+      run: |
         eksctl create cluster --name=test
         kubectl get nodes -owide
         eksctl delete cluster --name=test 
