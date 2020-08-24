@@ -38,7 +38,9 @@ jobs:
       uses: actions/checkout@master
     
     - name: Install DOP on cluster
-      run: ./dop.sh
+      run: |
+        chmod +x ./dop.sh
+        ./dop.sh
 
     - name: Cluster cleanup
       run: |
