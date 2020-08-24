@@ -31,7 +31,31 @@ jobs:
       run: |
         eksctl create cluster --name=test
         kubectl get nodes -owide
-        eksctl delete cluster --name=test 
+        kubectl get pod -A
+    
+    - name: helm install
+      run: |
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+        helm version
         
+    - name: create secret
+      run: | 
+        kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKER_PASSWORD }}
+        kubectl get secret
+        
+    - name: kubera install
+      run: |    
+        IP=$(sudo kubectl get nodes -o wide --no-headers | awk {'print $6'} | head -n 1)
+        URL=http://$IP
+        helm repo add kubera https://charts.mayadata.io/
+        helm repo update
+        helm install kubera kubera/kubera-charts --set server.url=$URL
+        sleep 50
+        kubectl get pod
 
+    - name: Cluster cleanup
+      run: |
+        eksctl delete cluster --name=test
         
