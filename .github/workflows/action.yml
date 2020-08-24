@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: test
+    - name: Install eksctl
       run: |
         curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x ./kubectl
@@ -20,40 +20,23 @@ jobs:
         sudo mv /tmp/eksctl /usr/local/bin
         sleep 10
         eksctl version
-    - name: Configure AWS credentials from Production account
+
+    - name: Configure AWS credentials from secrets
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
         
-    - name: Copy files to the production website with the AWS CLI
+    - name: Create EKS cluster using eksctl
       run: |
         eksctl create cluster --name=test
         kubectl get nodes -owide
         kubectl get pod -A
     
-    - name: helm install
-      run: |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        ./get_helm.sh
-        helm version
-        
-    - name: create secret
-      run: | 
-        kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKER_PASSWORD }}
-        kubectl get secret
-        
-    - name: kubera install
-      run: |    
-        IP=$(sudo kubectl get nodes -o wide --no-headers | awk {'print $6'} | head -n 1)
-        URL=http://$IP
-        helm repo add kubera https://charts.mayadata.io/
-        helm repo update
-        helm install kubera kubera/kubera-charts --set server.url=$URL
-        sleep 50
-        kubectl get pod
+    - name: Install DoP on cluster
+      uses: actions/checkout@master
+      run: ./dop.sh
 
     - name: Cluster cleanup
       run: |
