@@ -1,7 +1,5 @@
-.PHONY: test install
+.PHONY: install-dop
 
-install:
-	go get -t -v ./...
+install-dop:
+	./dop.sh
 
-test: install
-	go test -race -cover -v ./...
