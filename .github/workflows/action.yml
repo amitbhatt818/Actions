@@ -34,8 +34,10 @@ jobs:
         kubectl get nodes -owide
         kubectl get pod -A
     
-    - name: Install DoP on cluster
+    - name: Checkout
       uses: actions/checkout@master
+    
+    - name: Install DOP on cluster
       run: ./dop.sh
 
     - name: Cluster cleanup
