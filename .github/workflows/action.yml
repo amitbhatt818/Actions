@@ -27,21 +27,23 @@ jobs:
     
     - name: Checkout
       uses: actions/checkout@master
-      
-    - name: shellcheck-github-pr-review
-      uses: ./
-      with:
-        github_token: ${{ secrets.GIT_TOKEN }}
-        reporter: github-pr-review
-        pattern: '*.sh'
-        path: '.'
+        
+    - uses: actions/checkout@master
+    - name: ShellCheck Action
+      uses: fearphage/shellcheck-action@0.0.4
+      env:
+        GITHUB_TOKEN: ${{secrets.GIT_TOKEN}} 
     
     - name: Install DOP on cluster
       run: |
         chmod +x ./dop.sh
         ./dop.sh
 
-    - name: Cluster cleanup
+    - name: Cluster and DOP cleanup
       run: |
+        helm uninstall kubera 
+        kubectl delete pvc --all
+        kubectl delete ns maya-system
         eksctl delete cluster --name=test
+        eksctl get cluster --region=us-east-2
         
