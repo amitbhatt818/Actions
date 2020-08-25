@@ -39,9 +39,9 @@ jobs:
         chmod +x ./dop.sh
         ./dop.sh
 
-    - name: Cluster and DOP cleanup
-      run: |
-        helm uninstall kubera 
-        eksctl delete cluster --name=test
-        eksctl get cluster --region=us-east-2
+#     - name: Cluster and DOP cleanup
+#       run: |
+#         helm uninstall kubera 
+#         eksctl delete cluster --name=test
+#         eksctl get cluster --region=us-east-2
         
