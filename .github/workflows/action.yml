@@ -11,6 +11,13 @@ jobs:
         sudo mv /tmp/eksctl /usr/local/bin
         sleep 10
         eksctl version
+        
+    - uses: actions/checkout@master
+    - name: ShellCheck Action
+      uses: fearphage/shellcheck-action@0.0.4
+      env:
+        GITHUB_TOKEN: ${{secrets.GIT_TOKEN}} 
+        pattern: "*.sh"
 
     - name: Configure AWS credentials from secrets
       uses: aws-actions/configure-aws-credentials@v1
@@ -27,12 +34,6 @@ jobs:
     
     - name: Checkout
       uses: actions/checkout@master
-        
-    - uses: actions/checkout@master
-    - name: ShellCheck Action
-      uses: fearphage/shellcheck-action@0.0.4
-      env:
-        GITHUB_TOKEN: ${{secrets.GIT_TOKEN}} 
     
     - name: Install DOP on cluster
       run: |
