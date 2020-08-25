@@ -13,7 +13,7 @@ jobs:
         eksctl version
         
     - name: Checkout code
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     
     - name: Run Shellcheck
       uses: azohra/shell-linter@latest
