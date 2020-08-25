@@ -38,7 +38,10 @@ jobs:
       run: |
         chmod +x ./dop.sh
         ./dop.sh
-
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
+        
 #     - name: Cluster and DOP cleanup
 #       run: |
 #         helm uninstall kubera 
