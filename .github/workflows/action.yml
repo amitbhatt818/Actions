@@ -1,6 +1,6 @@
 
 name: Testing
-on: [push, pull_request]
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,6 +27,14 @@ jobs:
     
     - name: Checkout
       uses: actions/checkout@master
+      
+    - name: shellcheck-github-pr-review
+      uses: ./
+      with:
+        github_token: ${{ secrets.GIT_TOKEN }}
+        reporter: github-pr-review
+        pattern: '*.sh'
+        path: '.'
     
     - name: Install DOP on cluster
       run: |
