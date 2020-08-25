@@ -17,8 +17,6 @@ jobs:
     
     - name: Run Shellcheck
       uses: azohra/shell-linter@latest
-      with:
-        path: "./dop.sh"
     
 #     - uses: actions/checkout@master
 #     - name: ShellCheck Action
