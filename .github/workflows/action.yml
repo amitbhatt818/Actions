@@ -18,40 +18,27 @@ jobs:
     - name: Run Shellcheck
       uses: bewuethr/shellcheck-action@v2
 
-    
-#     - uses: actions/checkout@master
-#     - name: ShellCheck Action
-#       uses: fearphage/shellcheck-action@0.0.4
-#       env:
-#         GITHUB_TOKEN: ${{secrets.GIT_TOKEN}} 
-#         pattern: "*.sh"
-
-#     - name: Configure AWS credentials from secrets
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: us-east-2
+    - name: Configure AWS credentials from secrets
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
         
-#     - name: Create EKS cluster using eksctl
-#       run: |
-#         eksctl create cluster --name=test --node-type=t2.xlarge
-#         kubectl get nodes -owide
-#         kubectl get pod -A
+    - name: Create EKS cluster using eksctl
+      run: |
+        eksctl create cluster --name=test --node-type=t2.xlarge
+        kubectl get nodes -owide
+        kubectl get pod -A
     
-#     - name: Checkout
-#       uses: actions/checkout@master
-    
-#     - name: Install DOP on cluster
-#       run: |
-#         chmod +x ./dop.sh
-#         ./dop.sh
+    - name: Install DOP on cluster
+      run: |
+        chmod +x ./dop.sh
+        ./dop.sh
 
-#     - name: Cluster and DOP cleanup
-#       run: |
-#         helm uninstall kubera 
-#         kubectl delete pvc --all
-#         kubectl delete ns maya-system
-#         eksctl delete cluster --name=test
-#         eksctl get cluster --region=us-east-2
+    - name: Cluster and DOP cleanup
+      run: |
+        helm uninstall kubera 
+        eksctl delete cluster --name=test
+        eksctl get cluster --region=us-east-2
         
