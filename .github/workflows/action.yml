@@ -16,7 +16,8 @@ jobs:
       uses: actions/checkout@master
     
     - name: Run Shellcheck
-      uses: azohra/shell-linter@latest
+      uses: bewuethr/shellcheck-action@v2
+
     
 #     - uses: actions/checkout@master
 #     - name: ShellCheck Action
