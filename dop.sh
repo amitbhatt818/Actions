@@ -18,5 +18,5 @@ URL=http://$IP
 helm repo add kubera https://charts.mayadata.io/
 helm repo update
 helm install kubera kubera/kubera-charts --set server.url="$URL"
-sleep 50
+sleep 600
 kubectl get pod
