@@ -17,6 +17,9 @@ jobs:
     
     - name: Run Shellcheck
       uses: bewuethr/shellcheck-action@v2
+      
+    - name: Run golangci-lint
+      uses: actions-contrib/golangci-lint@v1
 
     - name: Configure AWS credentials from secrets
       uses: aws-actions/configure-aws-credentials@v1
