@@ -9,7 +9,7 @@ chmod 700 get_helm.sh
 helm version
 
 ## Creates secret
-kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$'{{ DOCKER_USERNAME }}' --docker-password=$'{{ DOCKER_PASSWORD }}'
+kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io --docker-username=$'{{ secrets.DOCKER_USERNAME }}' --docker-password=$'{{ secrets.DOCKER_PASSWORD }}'
 kubectl get secret
 
 ## Install Dop 
