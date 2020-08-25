@@ -12,12 +12,17 @@ jobs:
         sleep 10
         eksctl version
         
-    - uses: actions/checkout@master
-    - name: ShellCheck Action
-      uses: fearphage/shellcheck-action@0.0.4
-      env:
-        GITHUB_TOKEN: ${{secrets.GIT_TOKEN}} 
-        pattern: "*.sh"
+    - name: Checkout code
+    - uses: actions/checkout@v1
+    - name: Run Shellcheck
+      uses: azohra/shell-linter@latest
+    
+#     - uses: actions/checkout@master
+#     - name: ShellCheck Action
+#       uses: fearphage/shellcheck-action@0.0.4
+#       env:
+#         GITHUB_TOKEN: ${{secrets.GIT_TOKEN}} 
+#         pattern: "*.sh"
 
     - name: Configure AWS credentials from secrets
       uses: aws-actions/configure-aws-credentials@v1
