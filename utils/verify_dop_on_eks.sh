@@ -2,6 +2,10 @@
  
 set +e
 
+eksctl create cluster --name=test --node-type=t2.xlarge
+kubectl get nodes -owide
+kubectl get pod -A
+
 ## Install helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
@@ -10,7 +14,8 @@ helm version
 
 ## Creates secret
 kubectl create secret docker-registry directoronprem-registry-secret --docker-server=registry.mayadata.io \
---docker-username="$DOCKER_USER" --docker-password="$DOCKER_PASS"
+--docker-username="$DOCKER_USER" \
+--docker-password="$DOCKER_PASS"
 kubectl get secret
 
 ## Install Dop 
