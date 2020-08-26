@@ -43,4 +43,5 @@ jobs:
         kubectl delete ns maya-system
         eksctl delete cluster --name=test
         eksctl get cluster --region=us-east-2
+      if: always()
         
