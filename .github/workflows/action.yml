@@ -36,12 +36,12 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
         
-    - name: Cluster and DOP cleanup
-      run: |
-        helm uninstall kubera 
-        kubectl delete pvc --all
-        kubectl delete ns maya-system
-        eksctl delete cluster --name=test
-        eksctl get cluster --region=us-east-2
-      if: always()
+#     - name: Cluster and DOP cleanup
+#       run: |
+#         helm uninstall kubera 
+#         kubectl delete pvc --all
+#         kubectl delete ns maya-system
+#         eksctl delete cluster --name=test
+#         eksctl get cluster --region=us-east-2
+#       if: always()
         
